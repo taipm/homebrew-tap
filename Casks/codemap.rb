@@ -1,6 +1,6 @@
 cask "codemap" do
-  version "0.0.1-alpha.4"
-  sha256 "cace8ab256a1f130e504e88f11151c29db47f486f6f859fe701b3b6ca019ccf4"
+  version "0.0.1-alpha.5"
+  sha256 "8b74da28cd322825f0f2d96c561a72af8143f47c84172728a18fc79562b63d82"
 
   url "https://github.com/taipm/homebrew-tap/releases/download/v#{version}/codemap-#{version}-macos-universal.tar.gz"
   name "codemap"
