@@ -11,10 +11,12 @@ bin="${CODEMAP_BIN_DIR:-$HOME/.local/bin}"
 die() { echo "codemap: $*" >&2; exit 1; }
 [ "$(uname -s)" = Darwin ] || die "only macOS builds are published for now"
 
-tag="${CODEMAP_VERSION:-$(curl -fsSL "https://api.github.com/repos/$repo/releases?per_page=1" |
-  sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p' | head -1)}"
-[ -n "$tag" ] || die "could not find a release of $repo"
-ver="${tag#v}"
+# The cask is the single source of truth for the current version (no rate-limited API call).
+ver="${CODEMAP_VERSION:-$(curl -fsSL "https://raw.githubusercontent.com/$repo/main/Casks/codemap.rb" |
+  sed -n 's/^ *version "\([^"]*\)".*/\1/p' | head -1)}"
+ver="${ver#v}"
+[ -n "$ver" ] || die "could not read the current version from $repo"
+tag="v$ver"
 
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
